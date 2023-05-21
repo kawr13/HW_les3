@@ -27,18 +27,18 @@
 # print(dict_numbers)
 
 
-# a, b = map(int, input('Введите 2 числа длинн массива через пробел: ').split())
-# num1 = set()
-# num2 = set()
-# print(f'Введите {a} чисел первого массива')
-# print()
-# for i in range(1, a + 1):
-#     num1.add(int(input(f'Введите {i} число: ')))
-# print(f'Введите {b} чисел второго массива')
-# print()
-# for i in range(1, b + 1):
-#     num2.add(int(input(f'Введите {i} число: ')))
-# print('Пересекаемые числа: ', *sorted(num1 & num2))
+a, b = map(int, input('Введите 2 числа длинн массива через пробел: ').split())
+num1 = set()
+num2 = set()
+print(f'Введите {a} чисел первого массива')
+print()
+for i in range(1, a + 1):
+    num1.add(int(input(f'Введите {i} число: ')))
+print(f'Введите {b} чисел второго массива')
+print()
+for i in range(1, b + 1):
+    num2.add(int(input(f'Введите {i} число: ')))
+print('Пересекаемые числа: ', *sorted(num1 & num2))
 
 
 N = int(input())
