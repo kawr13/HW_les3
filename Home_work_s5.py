@@ -14,7 +14,9 @@ def summ(a, b):
     else:
         return summ(a - 1, b + 1)
 
-print(summ(2, 2))
+num1 = int(input('Первое число: '))
+num2 = int(input('Второе число: '))
+print(summ(num1, num2))
 
 
 '''Напишите программу, которая на вход принимает
@@ -28,4 +30,6 @@ def step(a, b):
     else:
         return a * step(a, b -1)
 
-print(step(3, 5))
+num_s1 = int(input('Первое число: '))
+num_s2 = int(input('В какую степень: '))
+print(step(num_s1, num_s2))
