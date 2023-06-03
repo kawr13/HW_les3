@@ -7,10 +7,10 @@
 напишите “Парам пам-пам”, если с ритмом все в порядке и “Пам парам”, если с ритмом все не
 в порядке'''
 
-text = 'пара-ра-раам рам-пам-папаам па-ра-па-дааам'.split()
+text = 'пара-ра-раам рам-пам-папааам па-ра-па-даам'.split()
 glass = 'аеёиоуыэюя'
 
-count = sum(sum(1 for k in j if k in glass) for i in text for j in i.split('-'))
+count = sum(sum(1 for k in i if k in glass) for i in text)
 
 check_rhythm = lambda count: 'Парам пам-пам' if count % len(text) == 0 else 'Пам парам'
 result = check_rhythm(count)
