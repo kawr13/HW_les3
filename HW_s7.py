@@ -9,9 +9,20 @@
 
 text = 'пара-ра-раам рам-пам-папаам па-ра-па-дааам'.split()
 glass = 'аеёиоуыэюя'
+
+count = sum(sum(1 for k in j if k in glass) for i in text for j in i.split('-'))
+
+check_rhythm = lambda count: 'Парам пам-пам' if count % len(text) == 0 else 'Пам парам'
+result = check_rhythm(count)
+print(result)
+
+
+text = 'пара-ра-раам рам-пам-папаам па-ра-па-дааам'.split()
+glass = 'аеёиоуыэюя'
 coun = [sum(1 for letter in word if letter in glass) for word in text]
 result = 'Парам пам-пам' if len(set(coun)) == 1 else 'Пам парам'
 print(result)
+
 
 ''' Напишите функцию print_operation_table(operation, num_rows=6, num_columns=6),
 которая принимает в качестве аргумента функцию, вычисляющую элемент по номеру строки и
