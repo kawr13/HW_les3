@@ -15,28 +15,14 @@ def writ_con(dict):
 
 
 def edit_contact(contact):
-    field = input('Выберите поле для редактирования (fam, nam, ot, numb): ').lower()
-    if field == 'fam':
-        old_key = contact['fam'][0]
-        new_value = input(f'Введите новое значение для поля {field}: ').lower()
-        new_key = new_value[0]
-        if old_key != new_key:
-            dict[old_key].remove(contact)
-            if not dict[old_key]:
-                del dict[old_key]
-            if new_key not in dict:
-                dict[new_key] = []
-            dict[new_key].append(contact)
-        contact[field] = new_value
-        print('Контакт успешно отредактирован.')
-        writ_con(dict)  # Сохранение изменений в файле
-    elif field in contact:
-        new_value = input(f'Введите новое значение для поля {field}: ').lower()
-        contact[field] = new_value
-        print('Контакт успешно отредактирован.')
-        writ_con(dict)  # Сохранение изменений в файле
-    else:
-        print('Некорректное поле. Редактирование отменено.')
+	field = input('Выберите поле для редактирования (fam, nam, ot, numb, txt): ').lower()
+	if field in contact:
+		new_value = input(f'Введите новое значение для поля {field}: ').lower()
+		contact[field] = new_value
+		print('Контакт успешно отредактирован.')
+		writ_con(dict)  # Сохранение изменений в файле
+	else:
+		print('Некорректное поле. Редактирование отменено.')
 
 
 def delete_contact(dict):
@@ -49,64 +35,77 @@ def add_contact(dict):
 	nam = input('Введите имя: ').lower()
 	ot = input('Введите отчество: ').lower()
 	numb = input('Введите номер: ').lower()
-	if fam[0] not in dict:
-		dict[fam[0]] = []
-	dict[fam[0]].append({'fam': fam, 'nam': nam, 'ot': ot, 'numb': numb})
+	txt = input('Введите текст: ').lower()
+	if 'contact'not in dict:
+		dict['contact'] = []
+	dict['contact'].append({'fam': fam, 'nam': nam, 'ot': ot, 'numb': numb, 'txt': txt})
 	print('Контакт успешно добавлен.')
 
 def search_contact(dict):
-	com_2 = input('Введите all (все контакты), search (Поиск по фамилии): ')
-	if com_2 == 'all':
+	com_2 = input('Введите all(1)(все контакты), search(2)(Поиск по фамилии): ')
+	if com_2 == '1':
 		for key, value in dict.items():
 			if value == []:
+				print('Контактов не найдено')
 				continue
 			else:
 				print(f"{key.title()}")
 				for contact in value:
 					print(
-						f"{contact['fam'].title()} {contact['nam'].title()} {contact['ot'].title()}\nномер: {contact['numb']}")
-	elif com_2 == 'search':
+						f"{contact['fam'].title()} {contact['nam'].title()} {contact['ot'].title()}\nномер: {contact['numb']}\nописание: {contact['txt']}")
+					print()
+
+	elif com_2 == '2':
 		fam = input('Введите фамилию / имя / отчество: ').lower()
+		found_contact = False  # Флаг для обозначения, найден ли контакт
 		for key, value in dict.items():
 			for contact in value:
 				if fam in contact['fam'] or fam in contact['nam'] or fam in contact['ot']:
-					print(
-						f"{contact['fam'].title()} {contact['nam'].title()} {contact['ot'].title()}\nномер: {contact['numb']}")
-				else:
-					print('Контакт не найден')
-
+					# Устанавливаем флаг в True, если найден хотя бы один контакт
+					found_contact = True
+					print(f"{contact['fam'].title()} {contact['nam'].title()} {contact['ot'].title()}\nномер: {contact['numb']}\nописание: {contact['txt']}")
+		if not found_contact:
+			print('Контакт не найден')
 
 def main(dict):
 	running = True
 	while running:
-		comm = input('Введите команду: ').lower()
-		if comm == 'add':
+		comm = input('Введите команду (add(1), print(2), show(3), delete(4), edit(5), exit(6): ').lower()
+		if comm == '1':
 			add_contact(dict)
 			writ_con(dict)
-		elif comm == 'print':
+		elif comm == '2':
 			print(dict)
-		elif comm == 'show':
+		elif comm == '3':
 			dict = read_con()
 			search_contact(dict)
-		elif comm == 'delete':
+		elif comm == '4':
 			delete_contact(dict)
 			writ_con(dict)
-		elif comm == 'edit':
+		elif comm == '5':
 			fam = input('Введите фамилию контакта для редактирования: ').lower()
-			if fam[0] in dict:
-				contacts = dict[fam[0]]
-				for contact in contacts:
-					if contact['fam'] == fam:
+			for value in dict.values():
+				for contact in value:
+					if fam in contact['fam']:
 						edit_contact(contact)
 						writ_con(dict)
 						break
-				else:
-					print('Контакт не найден.')
-			else:
-				print('Контакт не найден.')
-		elif comm == 'exit':
+					else:
+						print('Контакт не найден.')
+		elif comm == '6':
+			print('Программа завершена.')
 			running = False
+		else:
+			print('Некорректная команда.')
 
-dict = read_con()
-print(dict)
-main(dict)
+try:
+	dict = read_con()
+	main(dict)
+except FileNotFoundError:
+	print('Файл не найден.')
+finally:
+	dict = {}
+	writ_con(dict)
+	main(dict)
+
+
